@@ -1,0 +1,111 @@
+-- Services & Player
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "NoLagHubV2"
+
+-- Main Frame
+local main = Instance.new("Frame", gui)
+main.Name = "MainFrame"
+main.Size = UDim2.new(0,400,0,260)
+main.Position = UDim2.new(0.5,-200,0.5,-130)
+main.AnchorPoint = Vector2.new(0.5,0.5)
+main.BackgroundColor3 = Color3.new(0,0,0)
+main.BorderSizePixel = 4
+main.Active = true
+main.Draggable = true
+Instance.new("UICorner", main).CornerRadius = UDim.new(0,8)
+
+-- Title
+local title = Instance.new("TextLabel", main)
+title.Size = UDim2.new(1,0,0,40)
+title.BackgroundTransparency = 1
+title.Text = "NOLAGHUBV2"
+title.TextColor3 = Color3.new(1,1,1)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 28
+
+-- Subtitle
+local subtitle = Instance.new("TextLabel", main)
+subtitle.Size = UDim2.new(0,200,0,20)
+subtitle.Position = UDim2.new(0,5,1,-25)
+subtitle.BackgroundTransparency = 1
+subtitle.Text = "Made by HANZSCRIPTS"
+subtitle.TextColor3 = Color3.new(1,1,1)
+subtitle.Font = Enum.Font.Gotham
+subtitle.TextSize = 14
+subtitle.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Loading bar
+local barBG = Instance.new("Frame", main)
+barBG.Size = UDim2.new(0.9,0,0,20)
+barBG.Position = UDim2.new(0.05,0,0.5,0)
+barBG.BackgroundColor3 = Color3.fromRGB(50,50,50)
+Instance.new("UICorner", barBG).CornerRadius = UDim.new(0,6)
+local bar = Instance.new("Frame", barBG)
+bar.Size = UDim2.new(0,0,1,0)
+bar.BackgroundColor3 = Color3.fromRGB(0,255,0)
+Instance.new("UICorner", bar).CornerRadius = UDim.new(0,6)
+spawn(function()
+  for i=1,100 do
+    bar.Size = UDim2.new(i/100,0,1,0)
+    wait(0.03)
+  end
+end)
+
+-- RGB border
+spawn(function()
+  local hue = 0
+  while true do
+    hue = (hue + 1) % 360
+    main.BorderColor3 = Color3.fromHSV(hue/360,1,1)
+    wait(0.03)
+  end
+end)
+
+-- Buttons container
+local buttonBox = Instance.new("Frame", main)
+buttonBox.Size = UDim2.new(1,0,0,60)
+buttonBox.Position = UDim2.new(0,0,0.7,0)
+buttonBox.BackgroundTransparency = 1
+
+-- Utility to create button
+local function makeButton(text, posY, callback)
+  local btn = Instance.new("TextButton", buttonBox)
+  btn.Size = UDim2.new(0.8,0,0,28)
+  btn.Position = UDim2.new(0.1,0,posY,0)
+  btn.Text = text
+  btn.TextColor3 = Color3.new(1,1,1)
+  btn.BackgroundColor3 = Color3.fromRGB(30,30,30)
+  btn.Font = Enum.Font.Gotham
+  btn.TextSize = 18
+  Instance.new("UICorner", btn).CornerRadius = UDim.new(0,6)
+  btn.MouseButton1Click:Connect(callback)
+  return btn
+end
+
+-- Toggle states
+local eggESP = false
+
+-- Randomize Egg function
+local function toggleEgg()
+  eggESP = not eggESP
+  if eggESP then
+    -- enable egg ESP + randomize behavior
+    -- placeholder: you’d insert here actual code to scan all egg instances in workspace,
+    -- annotate them and randomize which egg you're targeting
+    print("Egg ESP & Randomizer enabled")
+  else
+    print("Egg ESP & Randomizer disabled")
+  end
+end
+
+-- Spawn Pets function
+local function spawnPets()
+  -- placeholder: you’d insert pet spawn code, such as triggering remote events or walking into spawn triggers
+  print("Spawn Pets triggered")
+end
+
+-- Create buttons
+makeButton("Randomize Egg", 0, toggleEgg)
+makeButton("Spawn Pets", 0.35, spawnPets)
